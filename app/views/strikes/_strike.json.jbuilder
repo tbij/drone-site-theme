@@ -1,0 +1,2 @@
+json.extract! strike, :id, :country_id, :strike_id, :date, :location, :minimum_people_killed, :maximum_people_killed, :minimum_civilians_killed, :maximum_civilians_killed, :minimum_children_killed, :maximum_children_killed, :index, :created_at, :updated_at
+json.url strike_url(strike, format: :json)

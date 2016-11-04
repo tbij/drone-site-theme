@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en" class="top">
+  <head>
+    <meta charset="utf-8">
+    <meta name="handheldfriendly" content="true">
+    <meta name="mobileoptimized" content="width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="all">
+    <meta name="description" property="og:description" content=".">
+    <meta property="og:image" content="http://www.dronewar.com/assets/img/logos/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Covert Drone War">
+    <meta property="og:title" content="Home">
+
+    <link rel="canonical" href="http://www.dronewar.com">
+    <link rel='stylesheet' href='assets/css/application.css'>
+    <link rel='stylesheet' href='assets/css/vendor/select-css.css'>
+    <link rel='stylesheet' href='assets/css/vendor/select-css-compat.css'>
+
+
+    <script src='assets/js/jquery-2.2.1.min.js'></script>
+    <script src='assets/js/jquery-ui.min.js'></script>
+    <script src='assets/js/URI.js'></script>
+    <script src='assets/js/application.js'></script>
+    <script src='assets/js/explore-functionality.js'></script>
+
+    <title> Covert Drone War - The Bureau of Investigative Journalism</title>
+  </head>
+  <body class="home">
+
+    <header role="banner">
+      <div class="wrap">
+        <h1><a class='current' href="#">Drone War Home</a></h1>
+
+        <nav role="navigation">
+          <h2><a href="#" class="icon-menu"><span>Menu</span></a></h2>
+                    <ul>
+            <li class='current-parent'><a class='current-parent' href="#">Drone War Home</a></li>
+            <li class=''><a class='current' href="data.html">Data</a></li>
+            <li class=''><a class='current' href="#">Drone War Home</a></li>
+
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main role="main">
+      <section class="intro">
+        <div class="wrap">
+          <figure class="image">
+            <img src="assets/img/content/intro/home.jpg" alt="">
+          </figure>
+
+          <div class="text">
+            <header>
+              <h1>
+                <span><span>The Bureau of Investigative Journalism</span></span>
+                <strong>Covert Drone War</strong>
+              </h1>
+            </header>
+            <div>
+              <p>Refresh data from spreadsheets</p>
+              <p class="statistic">
+                <span class="numbers"><%= Strike.count %></span>
+                strikes in database
+              </p>
+              <p class="statistic">
+                <span class="numbers"><%= Location.geocoded.count %> / <%= Location.count %></span>
+                Locations geolocated / total locations
+              </p>
+              <p class="statistic">
+                <span class="numbers"><%= l Strike.first.created_at if Strike.any? %></span>Last import
+              </p>
+            </div>
+            <div class="buttons divide-before">
+              <%= form_tag("/spreadsheets", method: "post") do %>
+              <button type="submit" class="button alt icon-chevron-right">Refresh</button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="data-tools">
+        <div class="wrap">
+          <div class="grid ratio-5-3">
+            <div class="box grid-item">
+              <div>
+                <h2>Explore the database</h2>
+
+                <form action="data.html" method="GET">
+                  <fieldset>
+                    <div class="grid">
+
+                      <div class="grid-item">
+                        <div class="form-wrap">
+                          <p class="label">Show me:</p>
+
+                          <ol class="custom-checkbox-buttons">
+                            <li>
+                              <label>
+                                <input type="checkbox" name="show_casualties">
+                                 <span>People killed</span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" name="show_injuries">
+                                <span>People injured</span>
+                              </label>
+                            </li>
+                            <li>
+                              <label>
+                                <input type="checkbox" name="show_strikes">
+                               <span>Number of strikes</span>
+                              </label>
+                            </li>
+                          </ol>
+                        </div>
+                      </div>
+
+                      <div class="grid-item location-dates">
+                        <div class="form-wrap">
+                          <label>
+                            <span class="label">In:</span>
+                            <span class="field custom-select">
+                              <select name="location">
+                                <option value="choose">Choose a location</option>
+                                <option value="pakistan">Pakistan</option>
+                                <option value="yemen">Yemen</option>
+                                <option value="somalia">Somalia</option>
+                                <option value="afghanistan">Afghanistan</option>
+                              </select>
+                            </span>
+                          </label>
+                        </div>
+
+                        <div class="grid">
+                          <div class="grid-item">
+                            <div class="form-wrap">
+                              <label>
+                                <span class="label">From:</span>
+                                <span class="field custom-select">
+                                  <select name="from">
+                                  </select>
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="grid-item">
+
+                            <div class="form-wrap">
+                              <label>
+                                <span class="label">To:</span>
+                                <span class="field custom-select">
+                                  <select name="to">
+                                    <option value="now">Now</option>
+                                  </select>
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="buttons divide-before">
+                      <button class="button alt icon-chevron-right">Create report</button>
+                    </div>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+
+            <div class="box grid-item">
+              <div class="formatting">
+                <h2>Get the full data</h2>
+                <p>All our data is provided as Google spreadsheets, and verified from numerous sources. It is freely available under a Creative Commons license.</p>
+                <p><a href="#" class="button alt icon-chevron-right">Get the data</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </body>
+</html>
