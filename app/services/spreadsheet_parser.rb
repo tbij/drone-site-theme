@@ -24,8 +24,7 @@ class SpreadsheetParser
   ]
 
   OTHER_KEYS = [
-    :strike_id, :date, :index, :location
-  ]
+    :strike_id, :date, :index, :location]
 
   def initialize(private_key, client_email)
     replacement_keys = REPLACEMENT_KEYS.map { |h| h[:new] }
@@ -76,19 +75,32 @@ class SpreadsheetParser
       field && field.empty? ? nil : field
     end
 
-    blah = ws.export_as_string
-    blah.gsub!("Confirmed/\n", "Confirmed/")
-    blah.gsub!("Counter-\n", "Counter-")
+    worksheet_as_string = ws.export_as_string
+    worksheet_as_string.gsub!("Confirmed/\n", "Confirmed/")
+    worksheet_as_string.gsub!("Counter-\n", "Counter-")
 
-    csv = CSV.new(blah, :headers => true, :header_converters => [:symbol], :converters => [:all, :blank_to_nil])
+    csv = CSV.new(worksheet_as_string, headers: true, header_converters: [:symbol], converters: [:all, :blank_to_nil])
     array = csv.to_a
+
+    p "size of array #{array.count}"
+
     array_of_hashes = array.map do |row|
       hash = convert_to_tidied_replace_key(row)
       hash = create_location(hash)
+      hash
+    end
+
+    array_of_hashes = array_of_hashes.delete_if { |row| row.key?(:us_confirmed) && row[:us_confirmed] == 0 }
+    array_of_hashes = array_of_hashes.delete_if { |row| row.key?(:confirmedpossible_us_attack) && row[:confirmedpossible_us_attack] != 'Confirmed' }
+    array_of_hashes = array_of_hashes.delete_if { |row| row.key?(:drone_strike) && row[:drone_strike] == 0  }
+
+    new_array_of_hashes = array_of_hashes.map do |hash|
       hash = filter_unused_keys(hash)
       hash
     end
-    array_of_hashes
+
+    p "size of array of hashes #{new_array_of_hashes.count}"
+    new_array_of_hashes
   end
 
   def convert_to_tidied_replace_key(row)

@@ -16,8 +16,6 @@ class DataImporter
       location = Location.where(country: @country, description: location_description).first_or_create
       hash[:location_id] = location.id
       Strike.create(hash)
-
-      ap hash
     end
   end
 
