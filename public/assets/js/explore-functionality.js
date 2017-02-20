@@ -62,16 +62,31 @@ function SearchFunction(searchCriteria) {
       // default
       var dayToUse = 1;
 
-      for (var fullYear = 2010; fullYear <= currentYear; fullYear++) {
-        //Create and append the options
-        for (var monthIndex = 0; monthIndex < monthNames.length; monthIndex++) {
-            var option = document.createElement("option");
-            if (fromOrTo == 'to') {
-              dayToUse = new Date(fullYear, monthIndex + 1, 0).getUTCDate();
-            }
-            option.setAttribute("value", fullYear + '-' + (parseInt(monthIndex)+1) + '-' + dayToUse);
-            option.text = monthNames[monthIndex] + ' ' + fullYear;
-            selectList.appendChild(option);
+      for (var fullYear = 2002; fullYear <= currentYear; fullYear++) {
+
+        if (fullYear < 2010) {
+          //Create and append the options
+          var option = document.createElement("option");
+          if (fromOrTo == 'to') {
+            option.setAttribute("value", fullYear + '-12-31');
+            option.text = 'Dec' + ' ' + fullYear;
+          } else {
+            option.setAttribute("value", fullYear + '-01-01');
+            option.text = 'Jan' + ' ' + fullYear;
+          }
+
+          selectList.appendChild(option);
+        } else {
+          //Create and append the options
+          for (var monthIndex = 0; monthIndex < monthNames.length; monthIndex++) {
+              var option = document.createElement("option");
+              if (fromOrTo == 'to') {
+                dayToUse = new Date(fullYear, monthIndex + 1, 0).getUTCDate();
+              }
+              option.setAttribute("value", fullYear + '-' + (parseInt(monthIndex)+1) + '-' + dayToUse);
+              option.text = monthNames[monthIndex] + ' ' + fullYear;
+              selectList.appendChild(option);
+          }
         }
       }
     };
