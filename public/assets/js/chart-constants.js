@@ -38,9 +38,12 @@ TBIJDRONECHART_CONSTANTS = {
     },
     scales: {
       xAxes: [{
-        stacked: true,
+        stacked: false,
         gridLines: {
           display : false
+        },
+        ticks: {
+          beginAtZero:true
         }
       }],
       yAxes: [{

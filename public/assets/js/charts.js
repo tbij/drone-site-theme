@@ -37,41 +37,32 @@ function DroneData(queryFromInput, queryToInput, queryLocationInput) {
   };
 
   var getCasualtyDataset = function(casualtyData) {
-
-    // Temporary hack
-    var chartMaximum = [ casualtyData.maximums[0] - casualtyData.minumums[0], casualtyData.maximums[1] - casualtyData.minumums[1], casualtyData.maximums[2] - casualtyData.minumums[2] ];
-    var chartMinimum = casualtyData.minumums;
-
     var data = {
         labels: casualtyData.labels,
         datasets: [{
             label: 'Minimum',
             backgroundColor: "#cc4242",
-            data:  chartMinimum
+            data:  casualtyData.minumums,
         }, {
             label: 'Maximum',
             backgroundColor: "#9e6969",
-            data: chartMaximum
+            data: casualtyData.maximums
         }]
     };
     return data;
   };
 
   var getInjuryDataset = function(injuryData) {
-
-    var chartMaximum = [ injuryData.maximums[0] - injuryData.minumums[0] ];
-    var chartMinimum = injuryData.minumums;
-
     var data = {
         labels: injuryData.labels,
         datasets: [{
             label: 'Minimum',
             backgroundColor: "#cc4242",
-            data: chartMinimum
+            data: injuryData.minumums
         }, {
             label: 'Maximum',
             backgroundColor: "#9e6969",
-            data: chartMaximum
+            data: injuryData.maximums
         }]
     };
     return data;
