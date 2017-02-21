@@ -31,6 +31,14 @@ function SearchFunction(searchCriteria) {
     }
   });
 
+    $("select[name='location']").change(function(event) {
+      console.log(event);
+      $("select[name='location'] option:selected" ).each(function() {
+        console.log($(this).text());
+        setUpSelectBoxes();
+      });
+  });
+
   var updateFromRequestParams = function() {
 
     var setSelectOption = function(searchCriteria, select_name) {
@@ -62,8 +70,31 @@ function SearchFunction(searchCriteria) {
       var selectList = document.querySelectorAll('section.data-tools select[name=' + fromOrTo + ']')[0];
       // default
       var dayToUse = 1;
+      if (fromOrTo == 'from') {
+        $(selectList).find("option").remove();
+      } else {
+        $(selectList).find("option:gt(0)").remove();
+      }
+      
+      var location = $("select[name='location'] option:selected").text();
+      var fullYearStart = 2002
+      switch (location) {
+        case 'Afghanistan':
+          fullYearStart = 2015;
+          break;
+        case 'Pakistan':
+          fullYearStart = 2004;
+          break;
+        case 'Somalia':
+          fullYearStart = 2007;
+          break;
+        case 'Yemen':
+          fullYearStart = 2002;
+          break;
+        }
+      console.log($("select[name='location'] option:selected").text());
 
-      for (var fullYear = 2002; fullYear <= currentYear; fullYear++) {
+      for (var fullYear = fullYearStart; fullYear <= currentYear; fullYear++) {
         //Create and append the options
         var option = document.createElement("option");
         if (fromOrTo == 'to') {
@@ -79,6 +110,7 @@ function SearchFunction(searchCriteria) {
     setUpOptions('from');
     setUpOptions('to');
   };
+
   setUpSelectBoxes();
   updateFromRequestParams();
 }
