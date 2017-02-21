@@ -7,7 +7,7 @@ TBIJDRONECHART_CONSTANTS = {
   reportedValues: '500-600',
   provincesTargetedValue: 3,
   strikesDatasetOptions:  {
-                label: "Strikes",
+                label: "Minimum Confirmed strikes",
                 fill: false,
                 lineTension: 0.1,
                 backgroundColor: "rgba(75,192,192,0.4)",
