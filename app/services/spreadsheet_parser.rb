@@ -80,12 +80,11 @@ class SpreadsheetParser
 
     worksheet_as_string = ws.export_as_string
     worksheet_as_string.gsub!("Confirmed/\n", "Confirmed/")
+    worksheet_as_string.gsub!("Confirmed/\n possible US attack?", "Confirmed possible US attack")
     worksheet_as_string.gsub!("Counter-\n", "Counter-")
 
     csv = CSV.new(worksheet_as_string, headers: true, header_converters: [:symbol], converters: [:all, :blank_to_nil])
     array = csv.to_a
-
-    p "size of array #{array.count}"
 
     array_of_hashes = array.map do |row|
       hash = convert_to_tidied_replace_key(row)
@@ -93,10 +92,11 @@ class SpreadsheetParser
       hash
     end
 
-    array_of_hashes = array_of_hashes.delete_if { |row| row.key?(:us_confirmed) && row[:us_confirmed] == 0 }
+    p "size of array of hashes before confirmed check #{array_of_hashes.count}"
     array_of_hashes = array_of_hashes.delete_if { |row| row.key?(:confirmedpossible_us_attack) && row[:confirmedpossible_us_attack] != 'Confirmed' }
-    array_of_hashes = array_of_hashes.delete_if { |row| row.key?(:drone_strike) && row[:drone_strike] == 0  }
+    array_of_hashes = array_of_hashes.delete_if { |row| row.key?(:confirmedpossible_us_strike) && row[:confirmedpossible_us_strike] != 'Confirmed' }
 
+    p "size of array of hashes after confirmed check #{array_of_hashes.count}"
     new_array_of_hashes = array_of_hashes.map do |hash|
       hash = filter_unused_keys(hash)
       hash
