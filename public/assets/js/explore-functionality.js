@@ -5,8 +5,9 @@
 var TBIJ_SEARCHCRITERIA = TBIJ_SEARCHCRITERIA || {};
 
 function SearchCriteria(params) {
-  var from = Date.parse('Oct 2010'),
-  to = new Date(),
+
+  var from = '2002-01-01', // Defaults
+  to = new Date(),         // Defaults
   // default to false if not set
   show_strikes = params.show_strikes === 'on',
   show_casualties = params.show_casualties === 'on',
@@ -14,9 +15,10 @@ function SearchCriteria(params) {
   selectLocation = 'choose',
   monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
-  if (params.location) {
-    selectLocation = params.location;
-  }
+  if (params.from) { from = params.from; }
+  if (params.to) { to = params.to; }
+  if (params.location) { selectLocation = params.location; }
+
   return ({ from: from, to: to, show_injuries: show_injuries, show_strikes: show_strikes, show_casualties: show_casualties, location: selectLocation, monthNames: monthNames});
 }
 
@@ -52,7 +54,6 @@ function SearchFunction(searchCriteria) {
   };
 
   var setUpSelectBoxes =  function() {
-
     var setUpOptions = function(fromOrTo) {
       var monthNames = searchCriteria.monthNames;
 
@@ -63,31 +64,15 @@ function SearchFunction(searchCriteria) {
       var dayToUse = 1;
 
       for (var fullYear = 2002; fullYear <= currentYear; fullYear++) {
-
-        if (fullYear < 2010) {
-          //Create and append the options
-          var option = document.createElement("option");
-          if (fromOrTo == 'to') {
-            option.setAttribute("value", fullYear + '-12-31');
-            option.text = 'Dec' + ' ' + fullYear;
-          } else {
-            option.setAttribute("value", fullYear + '-01-01');
-            option.text = 'Jan' + ' ' + fullYear;
-          }
-
-          selectList.appendChild(option);
+        //Create and append the options
+        var option = document.createElement("option");
+        option.text = fullYear;
+        if (fromOrTo == 'to') {
+          option.setAttribute("value", fullYear + '-12-31');
         } else {
-          //Create and append the options
-          for (var monthIndex = 0; monthIndex < monthNames.length; monthIndex++) {
-              var option = document.createElement("option");
-              if (fromOrTo == 'to') {
-                dayToUse = new Date(fullYear, monthIndex + 1, 0).getUTCDate();
-              }
-              option.setAttribute("value", fullYear + '-' + (parseInt(monthIndex)+1) + '-' + dayToUse);
-              option.text = monthNames[monthIndex] + ' ' + fullYear;
-              selectList.appendChild(option);
-          }
+          option.setAttribute("value", fullYear + '-01-01');
         }
+        selectList.appendChild(option);
       }
     };
     setUpOptions('from');
