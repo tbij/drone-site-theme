@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930160914) do
+ActiveRecord::Schema.define(version: 20170221141653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 20160930160914) do
     t.integer  "index"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.integer  "minimum_reported_strikes"
+    t.integer  "maximum_reported_strikes"
     t.index ["country_id"], name: "index_strikes_on_country_id", using: :btree
     t.index ["location_id"], name: "index_strikes_on_location_id", using: :btree
   end

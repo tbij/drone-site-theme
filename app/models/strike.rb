@@ -4,9 +4,9 @@
 #
 #  id                       :integer          not null, primary key
 #  country_id               :integer
+#  location_id              :integer
 #  strike_id                :string
 #  date                     :date
-#  location                 :string
 #  minimum_people_killed    :integer
 #  maximum_people_killed    :integer
 #  minimum_civilians_killed :integer
@@ -15,11 +15,11 @@
 #  maximum_children_killed  :integer
 #  minimum_people_injured   :integer
 #  maximum_people_injured   :integer
-#  latitude                 :float
-#  longitude                :float
 #  index                    :integer
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#  minimum_reported_strikes :integer
+#  maximum_reported_strikes :integer
 #
 
 class Strike < ApplicationRecord
