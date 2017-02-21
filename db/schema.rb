@@ -47,10 +47,10 @@ ActiveRecord::Schema.define(version: 20170221141653) do
     t.integer  "minimum_people_injured"
     t.integer  "maximum_people_injured"
     t.integer  "index"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "minimum_reported_strikes"
-    t.integer  "maximum_reported_strikes"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.integer  "minimum_strikes",          default: 1
+    t.integer  "maximum_strikes",          default: 1
     t.index ["country_id"], name: "index_strikes_on_country_id", using: :btree
     t.index ["location_id"], name: "index_strikes_on_location_id", using: :btree
   end

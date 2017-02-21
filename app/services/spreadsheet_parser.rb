@@ -21,6 +21,9 @@ class SpreadsheetParser
     { old: :maximum_children_reported_killed, new: :maximum_children_killed },
     { old: :maximum_reported_injured, new: :maximum_people_injured },
     { old: :minimum_reported_injured, new: :minimum_people_injured },
+    { old: :minimum_number_of_strikes, new: :minimum_strikes },
+    { old: :maximum_number_of_strikes, new: :maximum_strikes},
+    { old: :strike, new: :strike_id}
   ]
 
   OTHER_KEYS = [
