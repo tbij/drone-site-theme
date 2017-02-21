@@ -66,11 +66,12 @@ function SearchFunction(searchCriteria) {
       for (var fullYear = 2002; fullYear <= currentYear; fullYear++) {
         //Create and append the options
         var option = document.createElement("option");
-        option.text = fullYear;
         if (fromOrTo == 'to') {
           option.setAttribute("value", fullYear + '-12-31');
+          option.text = 'Dec ' + fullYear;
         } else {
           option.setAttribute("value", fullYear + '-01-01');
+          option.text = 'Jan ' + fullYear;
         }
         selectList.appendChild(option);
       }
