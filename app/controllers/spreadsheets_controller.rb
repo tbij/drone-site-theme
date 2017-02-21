@@ -4,6 +4,7 @@ class SpreadsheetsController < ApplicationController
     SpreadsheetJob.delete_and_import_everything
 
     # Sort geocoding
+    # TODO - have this as a background job!
     Location.not_geocoded.find_each(batch_size: 100) do |obj|
       obj.geocode; obj.save
       sleep(0.25.to_f)

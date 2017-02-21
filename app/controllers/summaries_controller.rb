@@ -11,7 +11,7 @@ class SummariesController < ApplicationController
     @country = Country.where('LOWER(name) = :location', location: "#{@location.downcase}")
     summaries = Strike.where(country: @country, date: @from..@to)
 
-    @strike_data = summaries.group_by_month.count.sort.to_h.map { |key, value| { key.strftime("%b %Y") => value }}
+    @strike_data = summaries.group_by_month.sum(:minimum_strikes).sort.to_h.map { |key, value| { key.strftime("%b %Y") => value }}
     @strike_data = @strike_data.reduce Hash.new, :merge
 
     set_up_mapping_data(summaries)
