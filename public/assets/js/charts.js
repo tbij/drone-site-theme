@@ -21,7 +21,6 @@ function DroneData(queryFromInput, queryToInput, queryLocationInput) {
        strikeChartData = getStrikeDataset(droneData.strikeData);
        injuryChartData = getInjuryDataset(droneData.injuryData);
        casualtyChartData = getCasualtyDataset(droneData.casualtyData);
-
        successCallback(strikeChartData, injuryChartData, casualtyChartData, droneData);
     });
   };
@@ -68,23 +67,8 @@ function DroneData(queryFromInput, queryToInput, queryLocationInput) {
     return data;
   };
 
-  var getFormattedDates =  function(from, to) {
-    var toDate = new Date();
-    if (to != 'now' && to != 'Now') {
-      toDate = new Date(to);
-    }
-    var fromDate = new Date(from);
-    return getDateString(fromDate) + ' - ' + getDateString(toDate);
-  };
-
-  var getDateString = function(date) {
-    return TBIJ_SEARCHCRITERIA.searchCriteria.monthNames[date.getMonth()] + ' ' + date.getFullYear();
-  };
-
   return {
     droneData: droneData,
-    getFormattedDates: getFormattedDates,
-    getDateString: getDateString,
     ableToCall: ableToCall,
     doAjaxCall: doAjaxCall
   };
@@ -96,8 +80,16 @@ function ChartHandler(params) {
   showCasualties = params.show_casualties,
   showInjuries =  params.show_injuries;
   var droneData;
+  var dateDisplayString = 'Woof Woof';
 
   var callback = function(strikeChartData, injuryChartData, casualtyChartData, rawDroneData) {
+
+    if (strikeChartData !== undefined && strikeChartData.labels.length) {
+      dateDisplayString = getFormattedDates(strikeChartData.labels[0], strikeChartData.labels[strikeChartData.labels.length - 1]);
+    }
+
+    var dateDisplay = document.querySelectorAll("li[name='dates'")[0];
+    dateDisplay.innerHTML = dateDisplayString;
 
     droneData = rawDroneData;
 
@@ -116,6 +108,19 @@ function ChartHandler(params) {
     setUpMap(rawDroneData.mappingData);
 
     $('#intro_data,#provinces_section,.data-results').removeClass('hide2');
+  };
+
+  var getFormattedDates =  function(from, to) {
+    var toDate = new Date();
+    if (to != 'now' && to != 'Now') {
+      toDate = new Date(to);
+    }
+    var fromDate = new Date(from);
+    return getDateString(fromDate) + ' - ' + getDateString(toDate);
+  };
+
+  var getDateString = function(date) {
+    return TBIJ_SEARCHCRITERIA.searchCriteria.monthNames[date.getMonth()] + ' ' + date.getFullYear();
   };
 
   var setUpCasualtyChart = function(casualtyDataset) {
@@ -207,10 +212,6 @@ $(document).ready(function() {
     if (queryParamsLocation) {
       tdc.updateLocations(queryParamsLocation);
     }
-
-    var dateDisplay = document.querySelectorAll("li[name='dates'")[0];
-    dateDisplay.innerHTML = tdd.getFormattedDates(params.from, params.to);
-
     return({ tdd: tdd, tdc: tdc});
   }
 });
